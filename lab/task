@@ -3,3 +3,14 @@
      b) use list comprehension instead simple for loops
 
 2. Write a Python program to change Brad’s salary to 8500 in brad.py.
+
+3. Write a program to print the following start pattern using the for loop:
+*
+* *
+* * *
+* * * *
+* * * * *
+* * * *
+* * *
+* *
+*
