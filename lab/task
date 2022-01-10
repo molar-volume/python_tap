@@ -14,3 +14,7 @@
 * * *
 * *
 *
+
+4. Write Python script that takes string on input, and arrange the characters of a string so that all lowercase letters should come first.
+   EXAMPLE INPUT:       PyNaTive
+   EXPECTED OUTPUT:     yaivePNT
