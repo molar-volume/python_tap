@@ -128,6 +128,10 @@ class NorGate:
     #  NorGates work lake OrGates that have a Not attached to the output.
     pass
 
+class XorGate:
+    # TODO implement
+    pass
+
 
 def main():
    g1 = AndGate("G1")
