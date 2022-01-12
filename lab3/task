@@ -1,0 +1,2 @@
+1. Write a Python class to convert an integer to a roman numeral.
+2. Write class that list of number and outputs their sum. Behind the scenes, use reduce and lambda function.
