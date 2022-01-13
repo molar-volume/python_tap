@@ -1,0 +1,15 @@
+In all following exercises, use two modules:
+a) <name>.py module, where logic of your implementation is hidden
+b) main.py module with main function, that tests your implementation on a CSV or JSON file of your choice.
+
+1. Write a Python program that reads a CSV file and remove initial spaces, quotes around each entry and the delimiter.
+2. Write a Python program to write a Python list of lists to a csv file. After writing the CSV file read the CSV file to dictionary and display content.
+3. Write a Python program that displays only unique values of the JSON object.
+4. Let's have a function:
+    def hello():
+        return "hello world"
+
+    Write and apply three decorators:
+    a) bold (that encloses output of the function in <b></b> html tags, e.g. "<b> hello world </b>")
+    b) italic (<i> </i>)
+    c) underline (<u> </u>)
