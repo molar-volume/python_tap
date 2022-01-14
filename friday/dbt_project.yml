@@ -1,108 +1,108 @@
-
-            schema: REPORTS
-                {%- endif -%}
-                {%- else -%} invalid_database
-                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} ANALYTICS_PROD
-                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} ANALYTICS_DEV
-            database: |
-        reports:
-            schema: SALESFORCE
-                {%- endif -%}
-                {%- else -%} invalid_database
-                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} DATAQUALITY_PROD
-                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} DATAQUALITY_DEV
-            database: |
-        salesforce:
-    oxehealth:
-    quote_columns: True
-seeds:
-
-            materialized: view
-            schema: REPORTS
-                {%- endif -%}
-                {%- else -%} invalid_database
-                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} ANALYTICS_PROD
-                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} ANALYTICS_DEV
-            database: |
-        reports:
-            +tags: "sandbox"
-            materialized: table
-            schema: SANDBOX
-                {%- endif -%}
-                {%- else -%} invalid_database
-                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} ANALYTICS_PROD
-                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} ANALYTICS_DEV
-            database: |
-        sandbox:
-    analytics:
-            materialized: table
-            +schema: APPLOG
-            +snowflake_warehouse: "WAREHOUSE_ANALYTICS_DEV_XL"
-                {%- endif -%}
-                {%- else -%} invalid_database
-                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} DATAQUALITY_PROD
-                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} DATAQUALITY_DEV
-            database: |
-        eventstream:
-            materialized: table
-            +schema: ZENDESK
-                {%- endif -%}
-                {%- else -%} invalid_database
-                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} DATAQUALITY_PROD
-                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} DATAQUALITY_DEV
-            database: |
-        zendesk:
-            materialized: table
-            +schema: APPLOG
-                {%- endif -%}
-                {%- else -%} invalid_database
-                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} DATAQUALITY_PROD
-                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} DATAQUALITY_DEV
-            database: |
-        gui_logs:
-            materialized: table
-            schema: GITLABCONTENT
-                {%- endif -%}
-                {%- else -%} invalid_database
-                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} DATAQUALITY_PROD
-                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} DATAQUALITY_DEV
-            database: |
-        gitlab_content:
-    dataquality:
-  oxehealth:
-    columns: true
-    relation: true
-  +persist_docs:
-models:
-# using the `{{ config(...) }}` macro.
-# as tables. These settings can be overridden in the individual model files
-# In this example config, we tell dbt to build all models in the example/ directory
-
-# Full documentation: https://docs.getdbt.com/docs/configuring-models
-# Configuring models
-
-
-    - "dbt_modules"
-    - "target"
-clean-targets:         # directories to be removed by `dbt clean`
-target-path: "target"  # directory which will store compiled SQL files
-
-snapshot-paths: ["snapshots"]
-macro-paths: ["macros"]
-data-paths: ["data"]
-test-paths: ["tests"]
-analysis-paths: ["analysis"]
-source-paths: ["models"]
-# found in the "models/" directory. You probably won't need to change these!
-# The `source-paths` config, for example, states that models in this project can be
-# These configurations specify where dbt should look for different types of files.
-
-profile: 'oxehealth'
-# This setting configures which "profile" dbt uses for this project.
-
-config-version: 2
-version: '1.0.0'
-name: 'oxehealth'
-# name or the intended use of these models
-# and underscores. A good package name should reflect your organization's
 # Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: 'oxehealth'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'oxehealth'
+
+# These configurations specify where dbt should look for different types of files.
+# The `source-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+source-paths: ["models"]
+analysis-paths: ["analysis"]
+test-paths: ["tests"]
+data-paths: ["data"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+    - "target"
+    - "dbt_modules"
+
+
+# Configuring models
+# Full documentation: https://docs.getdbt.com/docs/configuring-models
+
+# In this example config, we tell dbt to build all models in the example/ directory
+# as tables. These settings can be overridden in the individual model files
+# using the `{{ config(...) }}` macro.
+models:
+  +persist_docs:
+    relation: true
+    columns: true
+  oxehealth:
+    dataquality:
+        gitlab_content:
+            database: |
+                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} DATAQUALITY_DEV
+                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} DATAQUALITY_PROD
+                {%- else -%} invalid_database
+                {%- endif -%}
+            schema: GITLABCONTENT
+            materialized: table
+        gui_logs:
+            database: |
+                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} DATAQUALITY_DEV
+                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} DATAQUALITY_PROD
+                {%- else -%} invalid_database
+                {%- endif -%}
+            +schema: APPLOG
+            materialized: table
+        zendesk:
+            database: |
+                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} DATAQUALITY_DEV
+                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} DATAQUALITY_PROD
+                {%- else -%} invalid_database
+                {%- endif -%}
+            +schema: ZENDESK
+            materialized: table
+        eventstream:
+            database: |
+                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} DATAQUALITY_DEV
+                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} DATAQUALITY_PROD
+                {%- else -%} invalid_database
+                {%- endif -%}
+            +snowflake_warehouse: "WAREHOUSE_ANALYTICS_DEV_XL"
+            +schema: APPLOG
+            materialized: table
+    analytics:
+        sandbox:
+            database: |
+                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} ANALYTICS_DEV
+                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} ANALYTICS_PROD
+                {%- else -%} invalid_database
+                {%- endif -%}
+            schema: SANDBOX
+            materialized: table
+            +tags: "sandbox"
+        reports:
+            database: |
+                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} ANALYTICS_DEV
+                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} ANALYTICS_PROD
+                {%- else -%} invalid_database
+                {%- endif -%}
+            schema: REPORTS
+            materialized: view
+
+seeds:
+    quote_columns: True
+    oxehealth:
+        salesforce:
+            database: |
+                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} DATAQUALITY_DEV
+                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} DATAQUALITY_PROD
+                {%- else -%} invalid_database
+                {%- endif -%}
+            schema: SALESFORCE
+        reports:
+            database: |
+                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} ANALYTICS_DEV
+                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} ANALYTICS_PROD
+                {%- else -%} invalid_database
+                {%- endif -%}
+            schema: REPORTS
+
