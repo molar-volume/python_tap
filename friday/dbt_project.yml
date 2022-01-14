@@ -1,0 +1,108 @@
+
+            schema: REPORTS
+                {%- endif -%}
+                {%- else -%} invalid_database
+                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} ANALYTICS_PROD
+                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} ANALYTICS_DEV
+            database: |
+        reports:
+            schema: SALESFORCE
+                {%- endif -%}
+                {%- else -%} invalid_database
+                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} DATAQUALITY_PROD
+                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} DATAQUALITY_DEV
+            database: |
+        salesforce:
+    oxehealth:
+    quote_columns: True
+seeds:
+
+            materialized: view
+            schema: REPORTS
+                {%- endif -%}
+                {%- else -%} invalid_database
+                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} ANALYTICS_PROD
+                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} ANALYTICS_DEV
+            database: |
+        reports:
+            +tags: "sandbox"
+            materialized: table
+            schema: SANDBOX
+                {%- endif -%}
+                {%- else -%} invalid_database
+                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} ANALYTICS_PROD
+                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} ANALYTICS_DEV
+            database: |
+        sandbox:
+    analytics:
+            materialized: table
+            +schema: APPLOG
+            +snowflake_warehouse: "WAREHOUSE_ANALYTICS_DEV_XL"
+                {%- endif -%}
+                {%- else -%} invalid_database
+                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} DATAQUALITY_PROD
+                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} DATAQUALITY_DEV
+            database: |
+        eventstream:
+            materialized: table
+            +schema: ZENDESK
+                {%- endif -%}
+                {%- else -%} invalid_database
+                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} DATAQUALITY_PROD
+                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} DATAQUALITY_DEV
+            database: |
+        zendesk:
+            materialized: table
+            +schema: APPLOG
+                {%- endif -%}
+                {%- else -%} invalid_database
+                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} DATAQUALITY_PROD
+                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} DATAQUALITY_DEV
+            database: |
+        gui_logs:
+            materialized: table
+            schema: GITLABCONTENT
+                {%- endif -%}
+                {%- else -%} invalid_database
+                {%- elif {{env('DBT_TARGET_DEV')}} == "prod"  -%} DATAQUALITY_PROD
+                {%- if  {{env('DBT_TARGET_DEV')}} == "dev" -%} DATAQUALITY_DEV
+            database: |
+        gitlab_content:
+    dataquality:
+  oxehealth:
+    columns: true
+    relation: true
+  +persist_docs:
+models:
+# using the `{{ config(...) }}` macro.
+# as tables. These settings can be overridden in the individual model files
+# In this example config, we tell dbt to build all models in the example/ directory
+
+# Full documentation: https://docs.getdbt.com/docs/configuring-models
+# Configuring models
+
+
+    - "dbt_modules"
+    - "target"
+clean-targets:         # directories to be removed by `dbt clean`
+target-path: "target"  # directory which will store compiled SQL files
+
+snapshot-paths: ["snapshots"]
+macro-paths: ["macros"]
+data-paths: ["data"]
+test-paths: ["tests"]
+analysis-paths: ["analysis"]
+source-paths: ["models"]
+# found in the "models/" directory. You probably won't need to change these!
+# The `source-paths` config, for example, states that models in this project can be
+# These configurations specify where dbt should look for different types of files.
+
+profile: 'oxehealth'
+# This setting configures which "profile" dbt uses for this project.
+
+config-version: 2
+version: '1.0.0'
+name: 'oxehealth'
+# name or the intended use of these models
+# and underscores. A good package name should reflect your organization's
+# Name your project! Project names should contain only lowercase characters
